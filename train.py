@@ -1,18 +1,12 @@
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
-from __future__ import print_function
-import tensorflow as tf
 
-from hyperparams import Hyperparams as hp
-from data_load import get_batch_data, load_de_vocab, load_en_vocab
-from modules import *
-import os, codecs
+import tensorflow as tf
+from Hyperparams import Hyperparams as hp
+from DataLoader import get_batch_data, load_src_vocab, load_trgt_vocab
+from Modules import *
 from tqdm import tqdm
+import os, codecs
 
 class Graph():
     def __init__(self, is_training=True):
@@ -28,8 +22,8 @@ class Graph():
             self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1])*2, self.y[:, :-1]), -1) # 2:<S>
 
             # Load vocabulary    
-            de2idx, idx2de = load_de_vocab()
-            en2idx, idx2en = load_en_vocab()
+            de2idx, idx2de = load_src_vocab()
+            en2idx, idx2en = load_trgt_vocab()
             
             # Encoder
             with tf.variable_scope("encoder"):
@@ -156,8 +150,8 @@ class Graph():
 
 if __name__ == '__main__':                
     # Load vocabulary    
-    de2idx, idx2de = load_de_vocab()
-    en2idx, idx2en = load_en_vocab()
+    src2idx, idx2src = load_src_vocab()
+    trgt2idx, idx2trgt = load_trgt_vocab()
     
     # Construct graph
     g = Graph("train"); 
@@ -168,7 +162,6 @@ if __name__ == '__main__':
                              logdir=hp.logdir,
                              save_model_secs=0)
     with sv.managed_session() as sess:
-#         writer = tf.summary.FileWriter("./tensorboard_test",sess.graph)
         for epoch in range(1, hp.num_epochs+1): 
             if sv.should_stop(): break
             for step in tqdm(range(g.num_batch), total=g.num_batch, ncols=70, leave=False, unit='b'):
@@ -177,5 +170,4 @@ if __name__ == '__main__':
             gs = sess.run(g.global_step)   
             sv.saver.save(sess, hp.logdir + '/model_epoch_%02d_gs_%d' % (epoch, gs))
             print('/model_epoch_%02d_gs_%d' % (epoch, gs))
-#     writer.close()
     print("Done")    

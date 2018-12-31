@@ -1,18 +1,19 @@
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
+
 class Hyperparams:
-    '''Hyperparameters'''
     # data
-    source_train = 'corpora/train_cn'
-    target_train = 'corpora/train_en'
-    source_test = 'corpora/test_cn'
-    target_test = 'corpora/test_en'
+    source_file = "corpora/cn.txt"
+    target_file = "corpora/en.txt"
+
+    source_train = "corpora/train_cn"
+    target_train = "corpora/train_en"
+    source_test = "corpora/test_cn"
+    target_test = "corpora/test_en"
     
+    source_vocab = "corpora/cn_vocab"
+    target_vocab = "corpora/en_vocab"
+
     # training
     batch_size = 32 # alias = N
     lr = 0.0001 # learning rate. In paper, learning rate is adjusted to the global step.
@@ -28,7 +29,3 @@ class Hyperparams:
     num_heads = 8
     dropout_rate = 0.1
     sinusoid = False # If True, use sinusoid. If false, positional embedding.
-    
-    
-    
-    

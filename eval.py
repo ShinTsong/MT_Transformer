@@ -1,23 +1,14 @@
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
 
-from __future__ import print_function
 import codecs
 import os
-
 import tensorflow as tf
 import numpy as np
-
-from hyperparams import Hyperparams as hp
-from data_load import load_test_data, load_de_vocab, load_en_vocab
+from Hyperparams import Hyperparams as hp
+from DataLoader import load_test_data, load_src_vocab, load_trgt_vocab
 from train import Graph
 from nltk.translate.bleu_score import corpus_bleu
-
 import pdb
 import time
 
@@ -28,8 +19,8 @@ def eval():
     
     # Load data
     X, Sources, Targets = load_test_data()
-    de2idx, idx2de = load_de_vocab()
-    en2idx, idx2en = load_en_vocab()
+    src2idx, idx2src = load_src_vocab()
+    trgt2idx, idx2trgt = load_trgt_vocab()
      
 #     X, Sources, Targets = X[:33], Sources[:33], Targets[:33]
      
@@ -66,16 +57,16 @@ def eval():
                      
                     ### Write to file
                     for source, target, pred in zip(sources, targets, preds): # sentence-wise
-                        got = " ".join(idx2en[idx] for idx in pred).split("</S>")[0].strip()
+                        got = " ".join(idx2trgt[idx] for idx in pred).split("</S>")[0].strip()
 #                         pdb.set_trace()
-                        fout.write("- source: " + source +"\n")
-                        fout.write("- expected: " + target + "\n")
-                        fout.write("- got: " + got + "\n\n")
+                        fout.write("source : " + source +"\n")
+                        fout.write("target : " + target + "\n")
+                        fout.write("translated : " + got + "\n\n")
                         fout.flush()
                         
-                        print(source)
-                        print(target)
-                        print(got)
+#                         print(source)
+#                         print(target)
+#                         print(got)
                           
                         # bleu score
                         ref = target.split()
@@ -93,5 +84,3 @@ def eval():
 if __name__ == '__main__':
     eval()
     print("Done")
-    
-    

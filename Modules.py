@@ -1,18 +1,9 @@
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
 
-from __future__ import print_function
 import tensorflow as tf
 
-def normalize(inputs, 
-              epsilon = 1e-8,
-              scope="ln",
-              reuse=None):
+def normalize(inputs, epsilon = 1e-8, scope="ln", reuse=None):
     '''Applies layer normalization.
     
     Args:
@@ -38,13 +29,7 @@ def normalize(inputs,
         
     return outputs
 
-def embedding(inputs, 
-              vocab_size, 
-              num_units, 
-              zero_pad=True, 
-              scale=True,
-              scope="embedding", 
-              reuse=None):
+def embedding(inputs, vocab_size, num_units, zero_pad=True, scale=True, scope="embedding", reuse=None):
     '''Embeds a given tensor.
 
     Args:
@@ -117,12 +102,7 @@ def embedding(inputs,
     return outputs
     
 
-def positional_encoding(inputs,
-                        num_units,
-                        zero_pad=True,
-                        scale=True,
-                        scope="positional_encoding",
-                        reuse=None):
+def positional_encoding(inputs, num_units, zero_pad=True, scale=True, scope="positional_encoding", reuse=None):
     '''Sinusoidal Positional_Encoding.
 
     Args:
@@ -166,15 +146,7 @@ def positional_encoding(inputs,
 
 
 
-def multihead_attention(queries, 
-                        keys, 
-                        num_units=None, 
-                        num_heads=8, 
-                        dropout_rate=0,
-                        is_training=True,
-                        causality=False,
-                        scope="multihead_attention", 
-                        reuse=None):
+def multihead_attention(queries, keys, num_units=None, num_heads=8, dropout_rate=0, is_training=True, causality=False, scope="multihead_attention", reuse=None):
     '''Applies multihead attention.
     
     Args:
@@ -256,10 +228,7 @@ def multihead_attention(queries,
  
     return outputs
 
-def feedforward(inputs, 
-                num_units=[2048, 512],
-                scope="multihead_attention", 
-                reuse=None):
+def feedforward(inputs, num_units=[2048, 512], scope="multihead_attention", reuse=None):
     '''Point-wise feed forward net.
     
     Args:
@@ -327,7 +296,3 @@ def label_smoothing(inputs, epsilon=0.1):
     '''
     K = inputs.get_shape().as_list()[-1] # number of channels
     return ((1-epsilon) * inputs) + (epsilon / K)
-    
-    
-
-            
