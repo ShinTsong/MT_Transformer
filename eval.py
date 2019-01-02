@@ -5,10 +5,10 @@ import codecs
 import os
 import tensorflow as tf
 import numpy as np
+from nltk.translate.bleu_score import corpus_bleu
 from Hyperparams import Hyperparams as hp
 from DataLoader import load_test_data, load_src_vocab, load_trgt_vocab
-from train import Graph
-from nltk.translate.bleu_score import corpus_bleu
+from Graph import *
 import pdb
 import time
 
@@ -22,9 +22,6 @@ def eval():
     src2idx, idx2src = load_src_vocab()
     trgt2idx, idx2trgt = load_trgt_vocab()
      
-#     X, Sources, Targets = X[:33], Sources[:33], Targets[:33]
-     
-#     pdb.set_trace()
     # Start session         
     with g.graph.as_default():    
         sv = tf.train.Supervisor()
@@ -58,16 +55,11 @@ def eval():
                     ### Write to file
                     for source, target, pred in zip(sources, targets, preds): # sentence-wise
                         got = " ".join(idx2trgt[idx] for idx in pred).split("</S>")[0].strip()
-#                         pdb.set_trace()
                         fout.write("source : " + source +"\n")
                         fout.write("target : " + target + "\n")
                         fout.write("translated : " + got + "\n\n")
                         fout.flush()
                         
-#                         print(source)
-#                         print(target)
-#                         print(got)
-                          
                         # bleu score
                         ref = target.split()
                         hypothesis = got.split()
