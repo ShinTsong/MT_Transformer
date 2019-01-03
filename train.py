@@ -18,9 +18,7 @@ if __name__ == '__main__':
     print("Graph loaded")
     
     # Start session
-    sv = tf.train.Supervisor(graph=g.graph, 
-                             logdir=hp.logdir,
-                             save_model_secs=0)
+    sv = tf.train.Supervisor(graph=g.graph, logdir=hp.logdir, save_model_secs=0)
     with sv.managed_session() as sess:
         for epoch in range(1, hp.num_epochs+1): 
             if sv.should_stop(): break

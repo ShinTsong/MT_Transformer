@@ -24,10 +24,9 @@ def create_data(source_sents, target_sents):
     src2idx, idx2src = load_src_vocab()
     trgt2idx, idx2trgt = load_trgt_vocab()
     
-    # Index
     x_list, y_list, Sources, Targets = [], [], [], []
     for source_sent, target_sent in zip(source_sents, target_sents):
-        x = [src2idx.get(word, 1) for word in (source_sent + u" </S>").split()] # 1: OOV, </S>: End of Text
+        x = [src2idx.get(word, 1) for word in (source_sent + u" </S>").split()]
         y = [trgt2idx.get(word, 1) for word in (target_sent + u" </S>").split()] 
         if max(len(x), len(y)) <= hp.maxlen:
             x_list.append(np.array(x))
@@ -35,7 +34,6 @@ def create_data(source_sents, target_sents):
             Sources.append(source_sent)
             Targets.append(target_sent)
     
-    # Pad      
     X = np.zeros([len(x_list), hp.maxlen], np.int32)
     Y = np.zeros([len(y_list), hp.maxlen], np.int32)
     for i, (x, y) in enumerate(zip(x_list, y_list)):
@@ -66,12 +64,10 @@ def load_test_data():
 
 def get_batch_data():
     X, Y = load_train_data()
-    
     num_batch = len(X) // hp.batch_size
     
     X = tf.convert_to_tensor(X, tf.int32)
     Y = tf.convert_to_tensor(Y, tf.int32)
-    
     input_queues = tf.train.slice_input_producer([X, Y])
             
     x, y = tf.train.shuffle_batch(input_queues,
@@ -80,6 +76,5 @@ def get_batch_data():
                                 capacity=hp.batch_size*64,   
                                 min_after_dequeue=hp.batch_size*32, 
                                 allow_smaller_final_batch=False)
-    
     return x, y, num_batch
 

@@ -72,7 +72,8 @@ def eval():
                 ## Calculate bleu score
                 score = corpus_bleu(list_of_refs, hypotheses)
                 fout.write("Bleu Score = " + str(100*score))
+                print("Bleu Score = {}\n".format(str(100*score)))
                                           
-if __name__ == '__main__':
+if __name__ == "__main__":
     eval()
     print("Done")
