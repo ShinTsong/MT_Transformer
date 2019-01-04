@@ -46,21 +46,15 @@ def load_data(src_file, trgt_file):
     src_sents = [regex.sub("[^\s\p{Han}']", "", line) for line in codecs.open(src_file, "r", "utf-8").read().split("\n") if line and line[0] != "<"]
     trgt_sents = [regex.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(trgt_file, "r", "utf-8").read().split("\n") if line and line[0] != "<"]
     X, Y, Sources, Targets = create_data(src_sents, trgt_sents)
-    return X, Y
+    return X, Y, Sources, Targets
 
 def load_train_data():
-    return load_data(hp.source_train, hp.target_train)
-#     src_sents = [regex.sub("[^\s\p{Han}']", "", line) for line in codecs.open(hp.source_train, "r", "utf-8").read().split("\n") if line and line[0] != "<"]
-#     trgt_sents = [regex.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(hp.target_train, "r", "utf-8").read().split("\n") if line and line[0] != "<"]
-#     X, Y, Sources, Targets = create_data(src_sents, trgt_sents)
-#     return X, Y
+    X, Y, _ = load_data(hp.source_train, hp.target_train)
+    return X, Y
     
 def load_test_data():
-    return load_data(hp.source_test, hp.target_test)
-#     src_sents = [regex.sub("[^\s\p{Han}']", "", line).strip() for line in codecs.open(hp.source_test, "r", "utf-8").read().split("\n")]
-#     trgt_sents = [regex.sub("[^\s\p{Latin}']", "", line).strip() for line in codecs.open(hp.target_test, "r", "utf-8").read().split("\n")]
-#     X, Y, Sources, Targets = create_data(src_sents, trgt_sents)
-#     return X, Sources, Targets # (1064, 150)
+    X, Y, Sources, Targets = load_data(hp.source_test, hp.target_test)
+    return X, Sources, Targets
 
 def get_batch_data():
     X, Y = load_train_data()
