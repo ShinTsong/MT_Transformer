@@ -49,7 +49,7 @@ def load_data(src_file, trgt_file):
     return X, Y, Sources, Targets
 
 def load_train_data():
-    X, Y, _ = load_data(hp.source_train, hp.target_train)
+    X, Y, Sources, Targets = load_data(hp.source_train, hp.target_train)
     return X, Y
     
 def load_test_data():

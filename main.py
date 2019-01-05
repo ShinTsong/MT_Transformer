@@ -146,8 +146,8 @@ def eval():
     print("Evaluated!")
                                           
 if __name__ == "__main__":
-    parse = argparse.ArgumentParser()
-    parse.add_argument("--mode", type=str, default="all", help="mode : preprocess, train, eval, all(defualt)")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mode", type=str, default="all", help="mode : preprocess, train, eval, all(defualt)")
     args = parser.parse_args()
 
     if args.mode == "all":
