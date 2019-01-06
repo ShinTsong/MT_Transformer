@@ -14,7 +14,7 @@ import pdb
 import time
 
 from Hyperparams import Hyperparams as hp
-from DataLoader import get_batch_data, load_src_vocab, load_trgt_vocab
+from DataLoader import *
 from Graph import *
 
 def make_vocab(fpath, fname):
@@ -151,14 +151,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.mode == "all":
+        print("mode is all")
         preprocess()
         train()
         eval()
     elif args.mode == "preprocess":
+        print("mode is preprocess")
         preprocess()
     elif args.mode == "train":
+        print("mode is train")
         train()
     elif args.mode == "eval":
+        print("mode is eval")
         eval()
     else:
         print("param error!")
